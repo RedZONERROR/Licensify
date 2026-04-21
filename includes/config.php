@@ -42,6 +42,16 @@ $page_config = [
         'title' => 'Support - LICENSIFY',
         'description' => 'Get the support you need with our help center, documentation, and contact options.',
         'active_nav' => 'support'
+    ],
+    'about' => [
+        'title' => 'About - LICENSIFY',
+        'description' => 'Learn about our mission, values, and the team behind Licensify.',
+        'active_nav' => 'about'
+    ],
+    'blog' => [
+        'title' => 'Blog - LICENSIFY',
+        'description' => 'Latest news, updates, and insights from the Licensify team.',
+        'active_nav' => 'blog'
     ]
 ];
 
