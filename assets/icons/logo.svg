@@ -1,0 +1,10 @@
+<svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 5L35 12.5V27.5L20 35L5 27.5V12.5L20 5Z" fill="url(#logo-gradient)"/>
+    <path d="M20 15L28 19.5V28.5L20 33L12 28.5V19.5L20 15Z" fill="#1a1f36"/>
+    <defs>
+        <linearGradient id="logo-gradient" x1="5" y1="5" x2="35" y2="35">
+            <stop offset="0%" stop-color="#4A9EFF"/>
+            <stop offset="100%" stop-color="#7B61FF"/>
+        </linearGradient>
+    </defs>
+</svg>
