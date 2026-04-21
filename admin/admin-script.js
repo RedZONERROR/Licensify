@@ -1,275 +1,201 @@
 // Admin Dashboard JavaScript
 
-// Sidebar Toggle
-const sidebar = document.getElementById('sidebar');
-const sidebarToggle = document.getElementById('sidebarToggle');
-
-sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
-});
-
-// User Dropdown
-const userMenuBtn = document.getElementById('userMenuBtn');
-const userDropdown = document.getElementById('userDropdown');
-
-userMenuBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    userDropdown.classList.toggle('active');
-});
-
-// Close dropdown when clicking outside
-document.addEventListener('click', (e) => {
-    if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
-        userDropdown.classList.remove('active');
-    }
-});
-
-// Navigation
-const navItems = document.querySelectorAll('.nav-item');
-
-navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        // Remove active class from all items
-        navItems.forEach(nav => nav.classList.remove('active'));
-        
-        // Add active class to clicked item
-        item.classList.add('active');
-        
-        // Get page name
-        const page = item.getAttribute('data-page');
-        console.log('Navigating to:', page);
-        
-        // Here you would load different content based on the page
-        // For now, we'll just log it
-    });
-});
-
-// Mobile Sidebar Toggle
-const mobileMenuBtn = document.createElement('button');
-mobileMenuBtn.className = 'mobile-menu-btn';
-mobileMenuBtn.innerHTML = `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M3 12h18M3 6h18M3 18h18" stroke-width="2" stroke-linecap="round"/>
-    </svg>
-`;
-
-// Add mobile menu button to topbar on mobile
-if (window.innerWidth <= 1024) {
-    const topbarLeft = document.querySelector('.topbar-left');
-    topbarLeft.insertBefore(mobileMenuBtn, topbarLeft.firstChild);
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Admin Dashboard initialized');
     
-    mobileMenuBtn.addEventListener('click', () => {
-        sidebar.classList.toggle('active');
+    // Initialize all components
+    initSidebar();
+    initStats();
+    initTables();
+    initButtons();
+    initMobileMenu();
+});
+
+// Sidebar functionality
+function initSidebar() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const navLinks = document.querySelectorAll('.admin-nav a');
+    
+    // Highlight active page
+    const currentPage = window.location.pathname.split('/').pop() || 'index.php';
+    navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentPage) {
+            link.classList.add('active');
+        }
     });
 }
 
-// Table Row Selection
-const tableCheckboxes = document.querySelectorAll('.data-table input[type="checkbox"]');
-const headerCheckbox = document.querySelector('.data-table thead input[type="checkbox"]');
-
-if (headerCheckbox) {
-    headerCheckbox.addEventListener('change', (e) => {
-        const isChecked = e.target.checked;
-        tableCheckboxes.forEach(checkbox => {
-            if (checkbox !== headerCheckbox) {
-                checkbox.checked = isChecked;
+// Stats animation
+function initStats() {
+    const statValues = document.querySelectorAll('.stat-value');
+    
+    const animateValue = (element, start, end, duration) => {
+        const range = end - start;
+        const increment = range / (duration / 16);
+        let current = start;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                current = end;
+                clearInterval(timer);
             }
-        });
-    });
-}
-
-// Action Buttons
-const editButtons = document.querySelectorAll('.action-btn.edit');
-const deleteButtons = document.querySelectorAll('.action-btn.delete');
-const viewButtons = document.querySelectorAll('.action-btn.view');
-
-editButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        console.log('Edit clicked');
-        // Add edit functionality here
-    });
-});
-
-deleteButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (confirm('Are you sure you want to delete this license?')) {
-            console.log('Delete confirmed');
-            // Add delete functionality here
-        }
-    });
-});
-
-viewButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        console.log('View clicked');
-        // Add view functionality here
-    });
-});
-
-// Search Functionality
-const searchInput = document.querySelector('.search-box input');
-
-if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-        const searchTerm = e.target.value.toLowerCase();
-        console.log('Searching for:', searchTerm);
-        // Add search functionality here
-    });
-}
-
-// Notification Button
-const notificationBtn = document.querySelector('.notification-btn');
-
-if (notificationBtn) {
-    notificationBtn.addEventListener('click', () => {
-        console.log('Notifications clicked');
-        // Add notification panel functionality here
-    });
-}
-
-// Add New Vendor Button
-const addVendorBtn = document.querySelector('.btn-primary');
-
-if (addVendorBtn) {
-    addVendorBtn.addEventListener('click', () => {
-        console.log('Add new vendor clicked');
-        // Add modal or form functionality here
-    });
-}
-
-// Smooth Scroll for Activity Feed
-const activityList = document.querySelector('.activity-list');
-
-if (activityList) {
-    // Auto-scroll to show new activities (simulation)
-    setInterval(() => {
-        // This would be replaced with real-time updates
-        console.log('Checking for new activities...');
-    }, 30000); // Check every 30 seconds
-}
-
-// Stats Animation on Load
-const statValues = document.querySelectorAll('.stat-value');
-
-const animateValue = (element, start, end, duration) => {
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
+            
+            // Format the value
+            const originalText = element.getAttribute('data-value') || element.textContent;
+            if (originalText.includes('$')) {
+                element.textContent = '$' + Math.floor(current).toLocaleString();
+            } else if (originalText.includes('%')) {
+                element.textContent = current.toFixed(1) + '%';
+            } else {
+                element.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 16);
+    };
     
-    const timer = setInterval(() => {
-        current += increment;
-        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-            current = end;
-            clearInterval(timer);
-        }
-        
-        // Format the value
-        const value = element.textContent;
-        if (value.includes('$')) {
-            element.textContent = '$ ' + Math.floor(current) + '↑';
-        } else if (value.includes('k')) {
-            element.textContent = (current / 1000).toFixed(1) + 'k';
-        } else if (value.includes('.')) {
-            element.textContent = current.toFixed(1) + ' ↑';
-        } else {
-            element.textContent = Math.floor(current);
-        }
-    }, 16);
-};
-
-// Animate stats on page load
-window.addEventListener('load', () => {
+    // Animate stats on page load
     statValues.forEach(stat => {
-        const value = stat.textContent;
-        let numericValue = 0;
-        
-        if (value.includes('k')) {
-            numericValue = parseFloat(value) * 1000;
-        } else if (value.includes('$')) {
-            numericValue = parseInt(value.replace(/[^0-9]/g, ''));
-        } else {
-            numericValue = parseFloat(value);
-        }
+        const value = stat.textContent.replace(/[^0-9.]/g, '');
+        const numericValue = parseFloat(value);
         
         if (!isNaN(numericValue) && numericValue > 0) {
+            stat.setAttribute('data-value', stat.textContent);
             animateValue(stat, 0, numericValue, 1000);
         }
     });
-});
+}
 
-// Resize Handler
-let resizeTimer;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-        if (window.innerWidth <= 1024) {
-            sidebar.classList.remove('collapsed');
-            sidebar.classList.remove('active');
-        }
-    }, 250);
-});
-
-// Keyboard Shortcuts
-document.addEventListener('keydown', (e) => {
-    // Ctrl/Cmd + K for search
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-        e.preventDefault();
-        searchInput?.focus();
-    }
+// Table functionality
+function initTables() {
+    const tableRows = document.querySelectorAll('.admin-table tbody tr');
     
-    // Escape to close dropdowns
-    if (e.key === 'Escape') {
-        userDropdown.classList.remove('active');
-        sidebar.classList.remove('active');
-    }
-});
-
-// Table Row Click
-const tableRows = document.querySelectorAll('.data-table tbody tr');
-
-tableRows.forEach(row => {
-    row.addEventListener('click', (e) => {
-        // Don't trigger if clicking on checkbox or action buttons
-        if (e.target.type === 'checkbox' || e.target.closest('.action-buttons')) {
-            return;
-        }
-        
-        console.log('Row clicked');
-        // Add row click functionality here (e.g., show details)
-    });
-});
-
-// Initialize tooltips (if needed)
-const initTooltips = () => {
-    const tooltipElements = document.querySelectorAll('[data-tooltip]');
-    
-    tooltipElements.forEach(element => {
-        element.addEventListener('mouseenter', (e) => {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.textContent = element.getAttribute('data-tooltip');
-            document.body.appendChild(tooltip);
+    tableRows.forEach(row => {
+        row.addEventListener('click', (e) => {
+            // Don't trigger if clicking on buttons
+            if (e.target.closest('.btn-icon')) {
+                return;
+            }
             
-            const rect = element.getBoundingClientRect();
-            tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + 'px';
-            tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+            // Add row selection visual feedback
+            tableRows.forEach(r => r.style.background = '');
+            row.style.background = 'rgba(74, 158, 255, 0.1)';
+        });
+    });
+}
+
+// Button functionality
+function initButtons() {
+    const iconButtons = document.querySelectorAll('.btn-icon');
+    
+    iconButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const title = btn.getAttribute('title');
+            console.log(`${title} clicked`);
+            
+            // Add ripple effect
+            const ripple = document.createElement('span');
+            ripple.style.cssText = `
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+            `;
+            btn.style.position = 'relative';
+            btn.style.overflow = 'hidden';
+            btn.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+}
+
+// Mobile menu
+function initMobileMenu() {
+    if (window.innerWidth <= 1024) {
+        const sidebar = document.querySelector('.admin-sidebar');
+        const header = document.querySelector('.admin-header');
+        
+        // Create mobile menu button
+        const menuBtn = document.createElement('button');
+        menuBtn.className = 'mobile-menu-btn';
+        menuBtn.innerHTML = '☰';
+        menuBtn.style.cssText = `
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+        `;
+        
+        header.insertBefore(menuBtn, header.firstChild);
+        
+        menuBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
         });
         
-        element.addEventListener('mouseleave', () => {
-            const tooltip = document.querySelector('.tooltip');
-            if (tooltip) {
-                tooltip.remove();
+        // Close sidebar when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !menuBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
             }
         });
+    }
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Escape to close mobile menu
+    if (e.key === 'Escape') {
+        const sidebar = document.querySelector('.admin-sidebar');
+        sidebar?.classList.remove('active');
+    }
+});
+
+// Add ripple animation CSS
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes ripple {
+        to {
+            transform: scale(2);
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
     });
-};
+});
 
-// Initialize on load
-initTooltips();
+// Auto-refresh stats (optional)
+function refreshStats() {
+    console.log('Refreshing stats...');
+    // Add AJAX call here to refresh stats
+}
 
-console.log('Admin Dashboard initialized');
+// Refresh every 30 seconds
+// setInterval(refreshStats, 30000);
+
+console.log('Admin Dashboard ready');
