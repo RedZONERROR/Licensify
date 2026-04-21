@@ -6,30 +6,42 @@ A complete, responsive website for Licensify - a centralized platform for buying
 
 - **Fully Responsive Design** - Works perfectly on desktop, tablet, and mobile devices
 - **Modern UI/UX** - Dark theme with gradient accents and smooth animations
-- **Complete Pages** - All major pages implemented
+- **Complete Pages** - All major pages implemented (Home, Features, Vendors, Pricing, Documentation, Support, About, Blog)
 - **Interactive Elements** - Hover effects, animations, and smooth transitions
 - **Custom SVG Icons** - All icons and graphics created from scratch
-- **No Dependencies** - Pure HTML, CSS, and JavaScript
+- **PHP Modular Architecture** - Reusable components with dynamic content
+- **Modal System** - Privacy & Terms, Cookies modals
 
 ## 📁 Project Structure
 
 ```
 licensify/
-├── index.html              # Homepage
-├── features.html           # Features page
-├── vendors.html            # Vendors marketplace
-├── pricing.html            # Pricing plans
-├── documentation.html      # Documentation & API reference
-├── support.html            # Support & contact
-├── styles.css              # Main stylesheet
-├── pages.css               # Additional pages stylesheet
-├── script.js               # JavaScript functionality
-└── README.md              # This file
+├── index.php               # Homepage
+├── features.php            # Features page
+├── vendors.php             # Vendors marketplace
+├── pricing.php             # Pricing plans
+├── documentation.php       # Documentation, API reference & Security
+├── support.php             # Support & contact
+├── about.php               # About us page
+├── blog.php                # Blog with articles
+├── includes/
+│   ├── config.php          # Site configuration
+│   ├── header.php          # Dynamic header
+│   ├── footer.php          # Footer with social links
+│   └── modals.php          # Modal components
+├── assets/
+│   ├── css/
+│   │   ├── styles.css      # Main stylesheet
+│   │   └── pages.css       # Page-specific styles
+│   ├── js/
+│   │   └── script.js       # JavaScript functionality
+│   └── icons/              # SVG icons
+└── README.md               # This file
 ```
 
 ## 🎨 Pages Overview
 
-### 1. Homepage (index.html)
+### 1. Homepage (index.php)
 - Hero section with animated 3D illustration
 - Floating license cards (CodeX, DevTools, StudioPro)
 - Animated keys and document graphics
@@ -37,7 +49,7 @@ licensify/
 - CTA banner
 - Responsive navigation
 
-### 2. Features (features.html)
+### 2. Features (features.php)
 - Detailed feature cards with icons
 - Multi-vendor dashboard
 - Secure license distribution
@@ -47,34 +59,49 @@ licensify/
 - API integration
 - Enterprise-grade security section
 
-### 3. Vendors (vendors.html)
+### 3. Vendors (vendors.php)
 - Browse by category
 - Featured vendors showcase
 - Vendor cards with ratings and stats
 - Search functionality
 - "Become a Vendor" section
 
-### 4. Pricing (pricing.html)
+### 4. Pricing (pricing.php)
 - Three pricing tiers (Free, Pro, Enterprise)
 - Monthly/Yearly toggle
 - Feature comparison
 - FAQ section
 - Popular plan highlighting
 
-### 5. Documentation (documentation.html)
+### 5. Documentation (documentation.php)
 - Sidebar navigation
 - Getting started guide
-- API reference
+- Complete API reference with endpoints
+- Security best practices
 - Code examples with syntax highlighting
 - Installation instructions
 - Authentication guide
+- Webhooks and SDKs
+- Rate limits and compliance
 
-### 6. Support (support.html)
+### 6. Support (support.php)
 - Support options grid
 - Contact form
 - FAQ accordion
 - Contact information
 - Live chat availability
+
+### 7. About (about.php)
+- Company mission and values
+- Statistics and achievements
+- Our story
+- Enhanced design with animations
+
+### 8. Blog (blog.php)
+- Article grid with categories
+- Pagination
+- Newsletter subscription
+- Read time estimates
 
 ## 🎯 Key Features
 
@@ -86,13 +113,14 @@ licensify/
 
 ### Interactive Features
 - Smooth scroll navigation
-- Mobile menu toggle
+- Mobile menu toggle with hamburger animation
 - Parallax mouse tracking on hero section
 - Dynamic sparkle particles
 - Button ripple effects
 - FAQ accordion
 - Pricing toggle (monthly/yearly)
 - Form validation
+- Modal system for legal pages
 
 ### Responsive Breakpoints
 - Desktop: 1024px+
@@ -102,11 +130,26 @@ licensify/
 
 ## 🚀 Getting Started
 
-1. **Clone or download** the project files
-2. **Open index.html** in your web browser
-3. **Navigate** through the pages using the navigation menu
+### Requirements
+- PHP 7.4 or higher
+- Web server (Apache/Nginx)
+- Modern web browser
 
-No build process or dependencies required!
+### Installation
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/RedZONERROR/Licensify.git
+cd Licensify
+```
+
+2. **Configure your web server**
+   - Point document root to the project directory
+   - Ensure PHP is enabled
+
+3. **Access the website**
+   - Open `http://localhost` in your browser
+   - Navigate through pages using the menu
 
 ## 🌐 Browser Support
 
@@ -126,7 +169,7 @@ The website is fully responsive and optimized for:
 ## 🎨 Customization
 
 ### Colors
-Edit the CSS variables in `styles.css`:
+Edit the CSS variables in `assets/css/styles.css`:
 ```css
 :root {
     --primary-bg: #0a0e1a;
@@ -137,12 +180,20 @@ Edit the CSS variables in `styles.css`:
 }
 ```
 
-### Content
-- Update text content directly in HTML files
-- Modify images by replacing SVG code
-- Adjust animations in `script.js`
+### Configuration
+Update site settings in `includes/config.php`:
+```php
+define('SITE_NAME', 'LICENSIFY');
+define('SITE_URL', 'http://localhost');
+```
 
 ## 🔧 Technical Details
+
+### PHP
+- Modular architecture with reusable components
+- Dynamic page configuration
+- Active navigation state management
+- Error handling and validation
 
 ### HTML
 - Semantic HTML5 markup
@@ -162,6 +213,13 @@ Edit the CSS variables in `styles.css`:
 - Parallax effects
 - Form handling
 - FAQ accordion
+- Modal system
+
+## 🔗 Social Links
+
+- **GitHub**: [RedZONERROR/Licensify](https://github.com/RedZONERROR/licensify.git)
+- **YouTube**: [@redzonerror](https://youtube.com/@redzonerror)
+- **Telegram**: [@RedZONERROR](https://t.me/RedZONERROR)
 
 ## 📄 License
 
@@ -177,4 +235,4 @@ For questions or issues, refer to the support page or contact through the provid
 
 ---
 
-**Built with ❤️ using HTML, CSS, and JavaScript**
+**Built with ❤️ using PHP, HTML, CSS, and JavaScript**
