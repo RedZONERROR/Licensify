@@ -37,7 +37,17 @@ $page_config = getPageConfig($current_page);
                 <div class="nav-right">
                     <div class="search-box">
                         <img src="<?php echo ICONS_PATH; ?>/search.svg" alt="Search" class="search-icon">
-                        <input type="text" placeholder="Search <?php echo $current_page === 'vendors' ? 'Vendors' : ($current_page === 'documentation' ? 'Docs' : ($current_page === 'support' ? 'Help' : 'Licenses')); ?>...">
+                        <?php
+                        $search_placeholder = 'Search Licenses...';
+                        if ($current_page === 'vendors') {
+                            $search_placeholder = 'Search Vendors...';
+                        } elseif ($current_page === 'documentation') {
+                            $search_placeholder = 'Search Docs...';
+                        } elseif ($current_page === 'support') {
+                            $search_placeholder = 'Search Help...';
+                        }
+                        ?>
+                        <input type="text" placeholder="<?php echo $search_placeholder; ?>">
                     </div>
                     <a href="support.php" class="nav-link <?php echo isActive('support'); ?>">Support</a>
                     <button class="btn-signin">
