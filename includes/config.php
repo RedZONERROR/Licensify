@@ -8,6 +8,8 @@ define('SITE_NAME', 'LICENSIFY');
 define('SITE_URL', 'http://localhost');
 define('ASSETS_PATH', '/assets');
 define('ICONS_PATH', ASSETS_PATH . '/icons');
+define('CSS_PATH', ASSETS_PATH . '/css');
+define('JS_PATH', ASSETS_PATH . '/js');
 
 // Page titles and meta descriptions
 $page_config = [

@@ -12,9 +12,9 @@ $page_config = getPageConfig($current_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $page_config['title']; ?></title>
     <meta name="description" content="<?php echo $page_config['description']; ?>">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>/styles.css">
     <?php if ($current_page !== 'index'): ?>
-    <link rel="stylesheet" href="pages.css">
+    <link rel="stylesheet" href="<?php echo CSS_PATH; ?>/pages.css">
     <?php endif; ?>
 </head>
 <body>
@@ -32,6 +32,7 @@ $page_config = getPageConfig($current_page);
                     <li><a href="vendors.php" class="<?php echo isActive('vendors'); ?>">Vendors</a></li>
                     <li><a href="pricing.php" class="<?php echo isActive('pricing'); ?>">Pricing</a></li>
                     <li><a href="documentation.php" class="<?php echo isActive('documentation'); ?>">Documentation</a></li>
+                    <li class="mobile-only"><a href="support.php" class="<?php echo isActive('support'); ?>">Support</a></li>
                 </ul>
                 
                 <div class="nav-right">
@@ -49,12 +50,15 @@ $page_config = getPageConfig($current_page);
                         ?>
                         <input type="text" placeholder="<?php echo $search_placeholder; ?>">
                     </div>
-                    <a href="support.php" class="nav-link <?php echo isActive('support'); ?>">Support</a>
+                    <a href="support.php" class="nav-link desktop-only <?php echo isActive('support'); ?>">Support</a>
                     <button class="btn-signin">
-                        <img src="<?php echo ICONS_PATH; ?>/google-signin.svg" alt="Sign In">
-                        Sign In
+                        <img src="<?php echo ICONS_PATH; ?>/user.svg" alt="Sign In" class="signin-icon">
+                        <span class="signin-text">Sign In</span>
                     </button>
-                    <button class="btn-register">Register</button>
+                    <button class="btn-register">
+                        <img src="<?php echo ICONS_PATH; ?>/user-plus.svg" alt="Register" class="register-icon">
+                        <span class="register-text">Register</span>
+                    </button>
                 </div>
                 
                 <button class="mobile-menu-btn">

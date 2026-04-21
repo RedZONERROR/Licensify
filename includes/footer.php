@@ -60,6 +60,6 @@
     <div class="sparkle sparkle-2"></div>
     <div class="sparkle sparkle-3"></div>
 
-    <script src="script.js"></script>
+    <script src="<?php echo JS_PATH; ?>/script.js"></script>
 </body>
 </html>
